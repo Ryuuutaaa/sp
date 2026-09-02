@@ -1,0 +1,14 @@
+import { pgTable, uuid, varchar, numeric, text, timestamp } from 'drizzle-orm/pg-core'
+import { users } from './users.js'
+
+export const cashTransactions = pgTable('cash_transactions', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  type: varchar('type', { length: 10 }).notNull(),
+  category: varchar('category', { length: 50 }).notNull(),
+  amount: numeric('amount', { precision: 15, scale: 2 }).notNull(),
+  description: text('description').notNull(),
+  referenceType: varchar('reference_type', { length: 50 }),
+  referenceId: uuid('reference_id'),
+  createdBy: uuid('created_by').references(() => users.id).notNull(),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+})
