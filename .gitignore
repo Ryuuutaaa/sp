@@ -1,1 +1,9 @@
-PRD.md
+node_modules/
+dist/
+.env
+.env.local
+.env.*.local
+.nuxt/
+.output/
+*.log
+.DS_Store
