@@ -1,0 +1,9 @@
+{
+  "name": "sp",
+  "private": true,
+  "scripts": {
+    "dev:data": "pnpm --filter data-service dev",
+    "dev:web": "pnpm --filter web dev",
+    "studio": "pnpm --filter data-service studio"
+  }
+}
