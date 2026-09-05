@@ -31,6 +31,18 @@ func (h *MemberHandler) GetByID(c *fiber.Ctx) error {
 	return c.JSON(member)
 }
 
+func (h *MemberHandler) RegisterPublic(c *fiber.Ctx) error {
+	var input domain.CreateMemberInput
+	if err := c.BodyParser(&input); err != nil {
+		return c.Status(400).JSON(fiber.Map{"error": "invalid input"})
+	}
+	member, err := h.service.Register(input)
+	if err != nil {
+		return c.Status(500).JSON(fiber.Map{"error": err.Error()})
+	}
+	return c.Status(201).JSON(member)
+}
+
 func (h *MemberHandler) Create(c *fiber.Ctx) error {
 	var input domain.CreateMemberInput
 	if err := c.BodyParser(&input); err != nil {

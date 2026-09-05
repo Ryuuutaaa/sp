@@ -6,6 +6,7 @@
       <input v-model="password" type="password" placeholder="Password" class="border px-3 py-2 rounded" required />
       <button class="bg-blue-600 text-white px-4 py-2 rounded">Login</button>
       <p v-if="error" class="text-red-600 text-sm">{{ error }}</p>
+      <p class="text-sm">Belum punya akun? <NuxtLink to="/auth/register" class="text-blue-600 underline">Daftar anggota</NuxtLink></p>
     </form>
   </div>
 </template>

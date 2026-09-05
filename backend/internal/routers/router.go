@@ -31,6 +31,7 @@ const (
 
 func (rt *Router) RegisterMemberRoutes(r fiber.Router, h *handler.MemberHandler) {
 	members := r.Group("/members")
+	members.Post("/register", h.RegisterPublic)
 	members.Get("/", rt.RequireJWTAuth, rt.RequireRole(RoleSuperAdmin, RoleAdmin, RoleTeller), h.GetAll)
 	members.Get("/:id", rt.RequireJWTAuth, rt.RequireRole(RoleSuperAdmin, RoleAdmin, RoleTeller), h.GetByID)
 	members.Post("/", rt.RequireJWTAuth, rt.RequireRole(RoleSuperAdmin, RoleAdmin), h.Create)
