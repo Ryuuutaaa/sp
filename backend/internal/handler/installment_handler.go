@@ -14,12 +14,6 @@ func NewInstallmentHandler(service domain.InstallmentService) *InstallmentHandle
 	return &InstallmentHandler{service: service}
 }
 
-func (h *InstallmentHandler) Register(router fiber.Router) {
-	installments := router.Group("/installments")
-	installments.Get("/loan/:loanId", h.GetByLoanID)
-	installments.Post("/:id/pay", h.Pay)
-}
-
 func (h *InstallmentHandler) GetByLoanID(c *fiber.Ctx) error {
 	loanID := c.Params("loanId")
 	installments, err := h.service.GetByLoanID(loanID)

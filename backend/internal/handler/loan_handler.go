@@ -14,16 +14,6 @@ func NewLoanHandler(service domain.LoanService) *LoanHandler {
 	return &LoanHandler{service: service}
 }
 
-func (h *LoanHandler) Register(router fiber.Router) {
-	loans := router.Group("/loans")
-	loans.Get("/", h.GetAll)
-	loans.Get("/:id", h.GetByID)
-	loans.Post("/apply", h.Apply)
-	loans.Patch("/:id/approve", h.Approve)
-	loans.Patch("/:id/reject", h.Reject)
-	loans.Patch("/:id/disburse", h.Disburse)
-}
-
 func (h *LoanHandler) GetAll(c *fiber.Ctx) error {
 	loans, err := h.service.GetAll()
 	if err != nil {

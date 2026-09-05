@@ -10,6 +10,7 @@ import (
 type Config struct {
 	Port            string
 	GQLURL          string
+	JWTSecret       string
 	R2AccountID     string
 	R2AccessKeyID   string
 	R2SecretKey     string
@@ -26,6 +27,7 @@ func Load() *Config {
 	return &Config{
 		Port:          getEnv("PORT", "8080"),
 		GQLURL:        getEnv("GQL_URL", "http://localhost:4000/graphql"),
+		JWTSecret:     getEnv("JWT_SECRET", "koperasi-dev-secret-change-me"),
 		R2AccountID:   getEnv("R2_ACCOUNT_ID", ""),
 		R2AccessKeyID: getEnv("R2_ACCESS_KEY_ID", ""),
 		R2SecretKey:   getEnv("R2_SECRET_ACCESS_KEY", ""),

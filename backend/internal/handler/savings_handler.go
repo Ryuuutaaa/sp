@@ -14,14 +14,6 @@ func NewSavingsHandler(service domain.SavingsService) *SavingsHandler {
 	return &SavingsHandler{service: service}
 }
 
-func (h *SavingsHandler) Register(router fiber.Router) {
-	savings := router.Group("/savings")
-	savings.Get("/types", h.GetTypes)
-	savings.Get("/transactions", h.GetTransactions)
-	savings.Post("/deposit", h.Deposit)
-	savings.Post("/withdraw", h.Withdraw)
-}
-
 func (h *SavingsHandler) GetTypes(c *fiber.Ctx) error {
 	types, err := h.service.GetTypes()
 	if err != nil {

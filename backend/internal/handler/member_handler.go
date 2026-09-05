@@ -14,14 +14,6 @@ func NewMemberHandler(service domain.MemberService) *MemberHandler {
 	return &MemberHandler{service: service}
 }
 
-func (h *MemberHandler) Register(router fiber.Router) {
-	members := router.Group("/members")
-	members.Get("/", h.GetAll)
-	members.Get("/:id", h.GetByID)
-	members.Post("/", h.Create)
-	members.Patch("/:id/verify", h.Verify)
-}
-
 func (h *MemberHandler) GetAll(c *fiber.Ctx) error {
 	members, err := h.service.GetAll()
 	if err != nil {

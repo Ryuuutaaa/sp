@@ -5,7 +5,9 @@ import (
 
 	"sp-backend/internal/config"
 	"sp-backend/internal/handler"
+	"sp-backend/internal/middleware"
 	"sp-backend/internal/repository"
+	"sp-backend/internal/routers"
 	"sp-backend/internal/service"
 
 	"github.com/gofiber/fiber/v2"
@@ -39,22 +41,24 @@ func main() {
 	cashService := service.NewCashService(cashRepo)
 	shuService := service.NewShuService(shuRepo)
 
-	// Handlers
-	memberHandler := handler.NewMemberHandler(memberService)
-	savingsHandler := handler.NewSavingsHandler(savingsService)
-	loanHandler := handler.NewLoanHandler(loanService)
-	installmentHandler := handler.NewInstallmentHandler(installmentService)
-	cashHandler := handler.NewCashHandler(cashService)
-	shuHandler := handler.NewShuHandler(shuService)
+	// Handlers (logic only, no route mapping)
+	handlers := &handler.Handlers{
+		Member:      handler.NewMemberHandler(memberService),
+		Savings:     handler.NewSavingsHandler(savingsService),
+		Loan:        handler.NewLoanHandler(loanService),
+		Installment: handler.NewInstallmentHandler(installmentService),
+		Cash:        handler.NewCashHandler(cashService),
+		Shu:         handler.NewShuHandler(shuService),
+	}
 
-	// Routes
+	// Router (semua endpoint + JWT + RBAC di 1 tempat)
+	rt := routers.NewRouter(
+		middleware.RequireJWTAuth(cfg.JWTSecret),
+		middleware.RequireRole,
+	)
+
 	api := app.Group("/api")
-	memberHandler.Register(api)
-	savingsHandler.Register(api)
-	loanHandler.Register(api)
-	installmentHandler.Register(api)
-	cashHandler.Register(api)
-	shuHandler.Register(api)
+	rt.RegisterAll(api, handlers)
 
 	log.Printf("Server is running on port %s", cfg.Port)
 	log.Fatal(app.Listen(":" + cfg.Port))

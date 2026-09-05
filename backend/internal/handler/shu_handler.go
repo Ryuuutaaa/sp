@@ -16,12 +16,6 @@ func NewShuHandler(service domain.ShuService) *ShuHandler {
 	return &ShuHandler{service: service}
 }
 
-func (h *ShuHandler) Register(router fiber.Router) {
-	shu := router.Group("/shu")
-	shu.Get("/:year", h.GetByYear)
-	shu.Post("/calculate", h.Calculate)
-}
-
 func (h *ShuHandler) GetByYear(c *fiber.Ctx) error {
 	yearStr := c.Params("year")
 	year, err := strconv.Atoi(yearStr)

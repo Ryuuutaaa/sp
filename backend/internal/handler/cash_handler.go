@@ -14,12 +14,6 @@ func NewCashHandler(service domain.CashService) *CashHandler {
 	return &CashHandler{service: service}
 }
 
-func (h *CashHandler) Register(router fiber.Router) {
-	cash := router.Group("/cash")
-	cash.Get("/", h.GetAll)
-	cash.Post("/", h.Record)
-}
-
 func (h *CashHandler) GetAll(c *fiber.Ctx) error {
 	txs, err := h.service.GetAll()
 	if err != nil {

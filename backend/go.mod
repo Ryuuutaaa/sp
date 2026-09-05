@@ -4,6 +4,7 @@ go 1.22.2
 
 require (
 	github.com/gofiber/fiber/v2 v2.52.15
+	github.com/golang-jwt/jwt/v5 v5.3.1
 	github.com/joho/godotenv v1.5.1
 	github.com/machinebox/graphql v0.2.2
 	github.com/stretchr/testify v1.12.1
