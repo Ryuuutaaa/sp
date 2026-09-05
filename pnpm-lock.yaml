@@ -16,6 +16,9 @@ importers:
       drizzle-orm:
         specifier: ^0.45.2
         version: 0.45.2(postgres@3.4.9)
+      drizzle-zod:
+        specifier: ^0.8.3
+        version: 0.8.3(drizzle-orm@0.45.2(postgres@3.4.9))(zod@4.5.4)
       graphql:
         specifier: ^17.0.2
         version: 17.0.2
@@ -38,6 +41,12 @@ importers:
       typescript:
         specifier: ^7.0.2
         version: 7.0.2
+
+  web:
+    dependencies:
+      zod:
+        specifier: ^4.5.4
+        version: 4.5.4
 
 packages:
 
@@ -815,6 +824,12 @@ packages:
       sqlite3:
         optional: true
 
+  drizzle-zod@0.8.3:
+    resolution: {integrity: sha512-66yVOuvGhKJnTdiqj1/Xaaz9/qzOdRJADpDa68enqS6g3t0kpNkwNYjUuaeXgZfO/UWuIM9HIhSlJ6C5ZraMww==}
+    peerDependencies:
+      drizzle-orm: '>=0.36.0'
+      zod: ^3.25.0 || ^4.0.0
+
   esbuild@0.18.20:
     resolution: {integrity: sha512-ceqxoedUrcayh7Y7ZX6NdbbDzGROiyVBgC4PriJThBKSVPWnnFHZAkfI1lJT8QFkOwH4qOS2SJkS4wvpGl8BpA==}
     engines: {node: '>=12'}
@@ -883,6 +898,9 @@ packages:
 
   urlpattern-polyfill@10.1.0:
     resolution: {integrity: sha512-IGjKp/o0NL3Bso1PymYURCJxMPNAf/ILOpendP9f5B6e1rTJgdgiOvgfoT8VxCAdY+Wisb9uhGaJJf3yZ2V9nw==}
+
+  zod@4.5.4:
+    resolution: {integrity: sha512-sC95tT5iHHH9gtpj6A81kh+NEaRAUFN+qlUPDUbRfOMvNf5QCBqsb3WgvnpVtK5Y+4UfA6KqufotuTvMGiTlsA==}
 
 snapshots:
 
@@ -1316,6 +1334,11 @@ snapshots:
     optionalDependencies:
       postgres: 3.4.9
 
+  drizzle-zod@0.8.3(drizzle-orm@0.45.2(postgres@3.4.9))(zod@4.5.4):
+    dependencies:
+      drizzle-orm: 0.45.2(postgres@3.4.9)
+      zod: 4.5.4
+
   esbuild@0.18.20:
     optionalDependencies:
       '@esbuild/android-arm': 0.18.20
@@ -1471,3 +1494,5 @@ snapshots:
   undici-types@8.3.0: {}
 
   urlpattern-polyfill@10.1.0: {}
+
+  zod@4.5.4: {}
