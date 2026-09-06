@@ -36,6 +36,7 @@ type MemberService interface {
 	Register(input CreateMemberInput) (*Member, error)
 	Update(id string, input UpdateMemberInput) (*Member, error)
 	Deactivate(id string) (*Member, error)
+	UpdateStatus(id string, status string) (*Member, error)
 	Verify(id string, status string, verifiedBy string) (*Member, error)
 }
 

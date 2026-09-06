@@ -8,9 +8,10 @@ import (
 )
 
 type Claims struct {
-	UserID string `json:"userId"`
-	Email  string `json:"email"`
-	Role   string `json:"role"`
+	UserID   string `json:"userId"`
+	Email    string `json:"email"`
+	Role     string `json:"role"`
+	MemberID string `json:"memberId"`
 	jwt.RegisteredClaims
 }
 
@@ -45,6 +46,7 @@ func RequireJWTAuth(secret string) fiber.Handler {
 		c.Locals("userId", claims.UserID)
 		c.Locals("userRole", claims.Role)
 		c.Locals("userEmail", claims.Email)
+		c.Locals("memberId", claims.MemberID)
 		return c.Next()
 	}
 }
@@ -65,8 +67,8 @@ func RequireRole(roles ...string) fiber.Handler {
 }
 
 // GenerateToken is a helper for login / tests (not a middleware).
-func GenerateToken(secret, userID, email, role string) (string, error) {
-	claims := Claims{UserID: userID, Email: email, Role: role}
+func GenerateToken(secret, userID, email, role, memberID string) (string, error) {
+	claims := Claims{UserID: userID, Email: email, Role: role, MemberID: memberID}
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	return token.SignedString([]byte(secret))
 }

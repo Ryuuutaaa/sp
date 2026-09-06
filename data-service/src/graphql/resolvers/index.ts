@@ -25,7 +25,13 @@ export const resolvers = {
       return await query
     },
 
-    loans: async () => await db.select().from(schema.loans),
+    loans: async (_: any, { memberId }: { memberId?: string }) => {
+      let query = db.select().from(schema.loans)
+      if (memberId) {
+        query = query.where(eq(schema.loans.memberId, memberId)) as any
+      }
+      return await query
+    },
     loan: async (_: any, { id }: { id: string }) => {
       const res = await db.select().from(schema.loans).where(eq(schema.loans.id, id))
       return res[0] || null
@@ -51,6 +57,10 @@ export const resolvers = {
   Mutation: {
     createUser: async (_: any, args: any) => {
       const [row] = await db.insert(schema.users).values(args).returning()
+      return row
+    },
+    updateUserRole: async (_: any, { id, role }: any) => {
+      const [row] = await db.update(schema.users).set({ role }).where(eq(schema.users.id, id)).returning()
       return row
     },
 

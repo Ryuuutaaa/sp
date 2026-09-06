@@ -21,6 +21,10 @@ func (s *LoanService) GetByID(id string) (*domain.Loan, error) {
 	return s.repo.GetByID(id)
 }
 
+func (s *LoanService) GetByMemberID(memberID string) ([]domain.Loan, error) {
+	return s.repo.GetByMemberID(memberID)
+}
+
 func (s *LoanService) Apply(input domain.CreateLoanInput) (*domain.Loan, error) {
 	// TODO: Validasi plafon, hitung cicilan bulanan (flat/anuitas)
 	return s.repo.Create(input)

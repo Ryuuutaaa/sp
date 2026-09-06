@@ -32,6 +32,8 @@ func main() {
 	installmentRepo := repository.NewInstallmentRepo(gqlClient)
 	cashRepo := repository.NewCashRepo(gqlClient)
 	shuRepo := repository.NewShuRepo(gqlClient)
+	settingRepo := repository.NewSettingRepo(gqlClient)
+	userRepo := repository.NewUserRepo(gqlClient)
 
 	// Services
 	memberService := service.NewMemberService(memberRepo)
@@ -40,6 +42,8 @@ func main() {
 	installmentService := service.NewInstallmentService(installmentRepo)
 	cashService := service.NewCashService(cashRepo)
 	shuService := service.NewShuService(shuRepo)
+	settingService := service.NewSettingService(settingRepo)
+	userService := service.NewUserService(userRepo)
 
 	// Handlers (logic only, no route mapping)
 	handlers := &handler.Handlers{
@@ -49,6 +53,8 @@ func main() {
 		Installment: handler.NewInstallmentHandler(installmentService),
 		Cash:        handler.NewCashHandler(cashService),
 		Shu:         handler.NewShuHandler(shuService),
+		Setting:     handler.NewSettingHandler(settingService),
+		User:        handler.NewUserHandler(userService),
 	}
 
 	// Router (semua endpoint + JWT + RBAC di 1 tempat)

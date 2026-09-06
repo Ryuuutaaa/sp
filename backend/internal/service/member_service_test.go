@@ -59,6 +59,19 @@ func TestMemberService_Deactivate(t *testing.T) {
 	repo.AssertExpectations(t)
 }
 
+func TestMemberService_UpdateStatus(t *testing.T) {
+	repo := new(mockMemberRepo)
+	svc := NewMemberService(repo)
+
+	expected := &domain.Member{ID: "1", Status: "active"}
+	repo.On("UpdateStatus", "1", "active").Return(expected, nil)
+
+	got, err := svc.UpdateStatus("1", "active")
+	assert.NoError(t, err)
+	assert.Equal(t, "active", got.Status)
+	repo.AssertExpectations(t)
+}
+
 func TestMemberService_Verify(t *testing.T) {
 	repo := new(mockMemberRepo)
 	svc := NewMemberService(repo)

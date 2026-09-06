@@ -7,3 +7,4 @@ dist/
 .output/
 *.log
 .DS_Store
+web/public/uploads/

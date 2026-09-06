@@ -22,6 +22,18 @@ func (h *LoanHandler) GetAll(c *fiber.Ctx) error {
 	return c.JSON(loans)
 }
 
+func (h *LoanHandler) Mine(c *fiber.Ctx) error {
+	memberID, _ := c.Locals("memberId").(string)
+	if memberID == "" {
+		return c.Status(404).JSON(fiber.Map{"error": "member profile not linked"})
+	}
+	loans, err := h.service.GetByMemberID(memberID)
+	if err != nil {
+		return c.Status(500).JSON(fiber.Map{"error": err.Error()})
+	}
+	return c.JSON(loans)
+}
+
 func (h *LoanHandler) GetByID(c *fiber.Ctx) error {
 	id := c.Params("id")
 	loan, err := h.service.GetByID(id)

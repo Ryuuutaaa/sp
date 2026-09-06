@@ -26,6 +26,17 @@ func (h *ShuHandler) GetByYear(c *fiber.Ctx) error {
 	if err != nil {
 		return c.Status(500).JSON(fiber.Map{"error": err.Error()})
 	}
+	// Anggota hanya boleh lihat SHU miliknya sendiri.
+	if role, _ := c.Locals("userRole").(string); role == "anggota" {
+		memberID, _ := c.Locals("memberId").(string)
+		filtered := make([]domain.ShuDistribution, 0)
+		for _, s := range shus {
+			if s.MemberID == memberID {
+				filtered = append(filtered, s)
+			}
+		}
+		return c.JSON(filtered)
+	}
 	return c.JSON(shus)
 }
 

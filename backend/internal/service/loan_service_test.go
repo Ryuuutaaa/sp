@@ -27,6 +27,11 @@ func (m *mockLoanRepo) GetByID(id string) (*domain.Loan, error) {
 	return args.Get(0).(*domain.Loan), args.Error(1)
 }
 
+func (m *mockLoanRepo) GetByMemberID(memberID string) ([]domain.Loan, error) {
+	args := m.Called(memberID)
+	return args.Get(0).([]domain.Loan), args.Error(1)
+}
+
 func (m *mockLoanRepo) Create(input domain.CreateLoanInput) (*domain.Loan, error) {
 	args := m.Called(input)
 	return args.Get(0).(*domain.Loan), args.Error(1)

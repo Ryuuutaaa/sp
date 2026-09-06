@@ -7,4 +7,6 @@ type Handlers struct {
 	Installment *InstallmentHandler
 	Cash        *CashHandler
 	Shu         *ShuHandler
+	Setting     *SettingHandler
+	User        *UserHandler
 }

@@ -22,6 +22,7 @@ type Loan struct {
 
 type LoanRepository interface {
 	GetAll() ([]Loan, error)
+	GetByMemberID(memberID string) ([]Loan, error)
 	GetByID(id string) (*Loan, error)
 	Create(input CreateLoanInput) (*Loan, error)
 	UpdateStatus(id string, status string, userID string) (*Loan, error)
@@ -29,6 +30,7 @@ type LoanRepository interface {
 
 type LoanService interface {
 	GetAll() ([]Loan, error)
+	GetByMemberID(memberID string) ([]Loan, error)
 	GetByID(id string) (*Loan, error)
 	Apply(input CreateLoanInput) (*Loan, error)
 	Approve(id string, approvedBy string) (*Loan, error)

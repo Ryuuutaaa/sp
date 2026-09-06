@@ -18,6 +18,14 @@ func (r *LoanRepo) GetAll() ([]domain.Loan, error) {
 	return resp.Loans, err
 }
 
+func (r *LoanRepo) GetByMemberID(memberID string) ([]domain.Loan, error) {
+	var resp struct {
+		Loans []domain.Loan `json:"loans"`
+	}
+	err := r.gql.Run(`query($memberId: ID) { loans(memberId: $memberId) { id memberId loanNumber amount interestRate interestType tenorMonths monthlyInstallment status approvedBy disbursedBy } }`, map[string]interface{}{"memberId": memberID}, &resp)
+	return resp.Loans, err
+}
+
 func (r *LoanRepo) GetByID(id string) (*domain.Loan, error) {
 	var resp struct {
 		Loan *domain.Loan `json:"loan"`

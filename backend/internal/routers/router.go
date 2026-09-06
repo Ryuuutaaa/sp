@@ -32,9 +32,12 @@ const (
 func (rt *Router) RegisterMemberRoutes(r fiber.Router, h *handler.MemberHandler) {
 	members := r.Group("/members")
 	members.Post("/register", h.RegisterPublic)
+	members.Get("/me", rt.RequireJWTAuth, h.Me)
 	members.Get("/", rt.RequireJWTAuth, rt.RequireRole(RoleSuperAdmin, RoleAdmin, RoleTeller), h.GetAll)
 	members.Get("/:id", rt.RequireJWTAuth, rt.RequireRole(RoleSuperAdmin, RoleAdmin, RoleTeller), h.GetByID)
 	members.Post("/", rt.RequireJWTAuth, rt.RequireRole(RoleSuperAdmin, RoleAdmin), h.Create)
+	members.Patch("/:id", rt.RequireJWTAuth, rt.RequireRole(RoleSuperAdmin, RoleAdmin), h.Update)
+	members.Patch("/:id/status", rt.RequireJWTAuth, rt.RequireRole(RoleSuperAdmin, RoleAdmin), h.UpdateStatus)
 	members.Patch("/:id/verify", rt.RequireJWTAuth, rt.RequireRole(RoleSuperAdmin, RoleAdmin), h.Verify)
 }
 
@@ -56,6 +59,7 @@ func (rt *Router) RegisterSavingsRoutes(r fiber.Router, h *handler.SavingsHandle
 
 func (rt *Router) RegisterLoanRoutes(r fiber.Router, h *handler.LoanHandler) {
 	loans := r.Group("/loans")
+	loans.Get("/mine", rt.RequireJWTAuth, h.Mine)
 	loans.Get("/", rt.RequireJWTAuth, rt.RequireRole(RoleSuperAdmin, RoleAdmin, RoleTeller), h.GetAll)
 	loans.Get("/:id", rt.RequireJWTAuth, h.GetByID)
 	loans.Post("/apply", rt.RequireJWTAuth, rt.RequireRole(RoleAnggota), h.Apply)
@@ -90,8 +94,24 @@ func (rt *Router) RegisterCashRoutes(r fiber.Router, h *handler.CashHandler) {
 
 func (rt *Router) RegisterShuRoutes(r fiber.Router, h *handler.ShuHandler) {
 	shu := r.Group("/shu")
-	shu.Get("/:year", rt.RequireJWTAuth, rt.RequireRole(RoleSuperAdmin, RoleAdmin), h.GetByYear)
+	shu.Get("/:year", rt.RequireJWTAuth, h.GetByYear)
 	shu.Post("/calculate", rt.RequireJWTAuth, rt.RequireRole(RoleSuperAdmin, RoleAdmin), h.Calculate)
+}
+
+// ==========================================
+// SETTINGS & USERS ROUTES (Super Admin only)
+// ==========================================
+
+func (rt *Router) RegisterSettingRoutes(r fiber.Router, h *handler.SettingHandler) {
+	settings := r.Group("/settings")
+	settings.Get("/", rt.RequireJWTAuth, rt.RequireRole(RoleSuperAdmin), h.GetAll)
+	settings.Put("/:key", rt.RequireJWTAuth, rt.RequireRole(RoleSuperAdmin), h.Upsert)
+}
+
+func (rt *Router) RegisterUserRoutes(r fiber.Router, h *handler.UserHandler) {
+	users := r.Group("/users")
+	users.Get("/", rt.RequireJWTAuth, rt.RequireRole(RoleSuperAdmin), h.GetAll)
+	users.Patch("/:id/role", rt.RequireJWTAuth, rt.RequireRole(RoleSuperAdmin), h.UpdateRole)
 }
 
 // RegisterAll wires every domain route at once.
@@ -102,4 +122,6 @@ func (rt *Router) RegisterAll(api fiber.Router, h *handler.Handlers) {
 	rt.RegisterInstallmentRoutes(api, h.Installment)
 	rt.RegisterCashRoutes(api, h.Cash)
 	rt.RegisterShuRoutes(api, h.Shu)
+	rt.RegisterSettingRoutes(api, h.Setting)
+	rt.RegisterUserRoutes(api, h.User)
 }

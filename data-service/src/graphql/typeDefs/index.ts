@@ -124,7 +124,7 @@ export const typeDefs = /* GraphQL */ `
     savingsTypes: [SavingsType!]!
     savingsTransactions(memberId: ID): [SavingsTransaction!]!
 
-    loans: [Loan!]!
+    loans(memberId: ID): [Loan!]!
     loan(id: ID!): Loan
 
     installments(loanId: ID!): [Installment!]!
@@ -143,6 +143,8 @@ export const typeDefs = /* GraphQL */ `
       role: String!
       memberId: ID
     ): User!
+
+    updateUserRole(id: ID!, role: String!): User!
 
     createMember(
       memberNumber: String!

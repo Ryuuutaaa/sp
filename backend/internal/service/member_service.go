@@ -31,6 +31,10 @@ func (s *MemberService) Deactivate(id string) (*domain.Member, error) {
 	return s.repo.UpdateStatus(id, "inactive")
 }
 
+func (s *MemberService) UpdateStatus(id string, status string) (*domain.Member, error) {
+	return s.repo.UpdateStatus(id, status)
+}
+
 func (s *MemberService) Verify(id string, status string, verifiedBy string) (*domain.Member, error) {
 	return s.repo.Verify(id, status, verifiedBy)
 }
