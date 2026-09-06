@@ -1,6 +1,5 @@
-import { pgTable, uuid, varchar, numeric, boolean, timestamp } from 'drizzle-orm/pg-core'
+import { pgTable, uuid, varchar, numeric, boolean, timestamp, text } from 'drizzle-orm/pg-core'
 import { members } from './members.js'
-import { users } from './users.js'
 
 export const savingsTypes = pgTable('savings_types', {
   id: uuid('id').primaryKey().defaultRandom(),
@@ -19,6 +18,6 @@ export const savingsTransactions = pgTable('savings_transactions', {
   balanceAfter: numeric('balance_after', { precision: 15, scale: 2 }).notNull(),
   note: varchar('note', { length: 255 }),
   receiptNumber: varchar('receipt_number', { length: 50 }).unique().notNull(),
-  createdBy: uuid('created_by').references(() => users.id).notNull(),
+  createdBy: text('created_by').notNull(),
   createdAt: timestamp('created_at').defaultNow().notNull(),
 })

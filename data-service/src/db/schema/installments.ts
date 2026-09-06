@@ -1,6 +1,5 @@
-import { pgTable, uuid, integer, date, numeric, varchar, timestamp } from 'drizzle-orm/pg-core'
+import { pgTable, uuid, integer, date, numeric, varchar, timestamp, text } from 'drizzle-orm/pg-core'
 import { loans } from './loans.js'
-import { users } from './users.js'
 
 export const installments = pgTable('installments', {
   id: uuid('id').primaryKey().defaultRandom(),
@@ -13,7 +12,7 @@ export const installments = pgTable('installments', {
   totalAmount: numeric('total_amount', { precision: 15, scale: 2 }).notNull(),
   paidAmount: numeric('paid_amount', { precision: 15, scale: 2 }).default('0').notNull(),
   paidAt: timestamp('paid_at'),
-  paidReceivedBy: uuid('paid_received_by').references(() => users.id),
+  paidReceivedBy: text('paid_received_by'),
   receiptNumber: varchar('receipt_number', { length: 50 }),
   status: varchar('status', { length: 20 }).default('unpaid').notNull(),
   createdAt: timestamp('created_at').defaultNow().notNull(),

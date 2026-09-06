@@ -1,5 +1,4 @@
 import { pgTable, uuid, varchar, numeric, text, timestamp } from 'drizzle-orm/pg-core'
-import { users } from './users.js'
 
 export const cashTransactions = pgTable('cash_transactions', {
   id: uuid('id').primaryKey().defaultRandom(),
@@ -9,6 +8,6 @@ export const cashTransactions = pgTable('cash_transactions', {
   description: text('description').notNull(),
   referenceType: varchar('reference_type', { length: 50 }),
   referenceId: uuid('reference_id'),
-  createdBy: uuid('created_by').references(() => users.id).notNull(),
+  createdBy: text('created_by').notNull(),
   createdAt: timestamp('created_at').defaultNow().notNull(),
 })

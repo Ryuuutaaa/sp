@@ -2,11 +2,11 @@
   "name": "sp",
   "private": true,
   "scripts": {
-    "dev": "concurrently --names \"data,backend,web\" --prefix-colors \"green,yellow,cyan\" \"pnpm dev:data\" \"pnpm dev:backend\" \"pnpm dev:web\"",
+    "dev": "concurrently --names \"data,backend,web,studio\" --prefix-colors \"green,yellow,cyan,magenta\" \"pnpm dev:data\" \"pnpm dev:backend\" \"pnpm dev:web\" \"pnpm dev:studio\"",
     "dev:data": "pnpm --filter data-service dev",
     "dev:backend": "sh -c 'cd backend && go run ./cmd/api/main.go'",
     "dev:web": "pnpm --filter web dev",
-    "dev:studio": "wait-on http://localhost:4000/graphql && pnpm --filter data-service studio",
+    "dev:studio": "pnpm --filter data-service studio",
     "dev:full": "pnpm dev & pnpm dev:studio"
   },
   "devDependencies": {

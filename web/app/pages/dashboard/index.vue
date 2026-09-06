@@ -36,7 +36,10 @@ import { authClient } from "~/utils/auth-client"
 
 definePageMeta({ middleware: ["auth"] })
 
-const { data: session } = await authClient.getSession()
+const headers = import.meta.server ? useRequestHeaders(["cookie"]) : undefined
+const { data: session } = await authClient.getSession({
+  fetchOptions: headers ? { headers } : {},
+})
 const role = (session?.user as any)?.role as string | undefined
 const memberId = (session?.user as any)?.memberId as string | undefined
 const isStaff = computed(() => role === "super_admin" || role === "admin")

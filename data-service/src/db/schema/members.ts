@@ -1,5 +1,4 @@
 import { pgTable, uuid, varchar, text, date, timestamp } from 'drizzle-orm/pg-core'
-import { users } from './users.js'
 
 export const members = pgTable('members', {
   id: uuid('id').primaryKey().defaultRandom(),
@@ -12,7 +11,7 @@ export const members = pgTable('members', {
   ktpPhotoUrl: text('ktp_photo_url').notNull(),
   selfieKtpPhotoUrl: text('selfie_ktp_photo_url').notNull(),
   verificationStatus: varchar('verification_status', { length: 20 }).default('pending').notNull(),
-  verifiedBy: uuid('verified_by').references(() => users.id),
+  verifiedBy: text('verified_by'),
   verifiedAt: timestamp('verified_at'),
   joinDate: date('join_date').defaultNow().notNull(),
   status: varchar('status', { length: 20 }).default('active').notNull(),
